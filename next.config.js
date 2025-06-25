@@ -1,7 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Removed experimental.appDir as it's no longer needed in Next.js 14
-  // App Router is stable and enabled by default
+  // Disable SWC and use Babel instead to avoid binary loading issues
+  swcMinify: false,
+  compiler: {
+    // Remove React properties in production
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Ensure compatibility with WebContainer environment
+  experimental: {
+    esmExternals: 'loose',
+  }
 }
 
 module.exports = nextConfig
