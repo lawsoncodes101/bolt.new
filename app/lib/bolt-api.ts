@@ -1,16 +1,8 @@
 import { ReviewMode } from '../page'
 
-const BOLT_API_ENDPOINT = 'https://api.bolt.new/v1/chat/completions'
-
+// Mock implementation - using this by default since real API requires authentication
 export async function reviewCode(code: string, mode: ReviewMode): Promise<string> {
-  // Since we can't actually call Bolt.ai API without proper authentication,
-  // we'll simulate the API call with a mock response for demonstration
-  
-  // In a real implementation, you would:
-  // 1. Set up proper API authentication
-  // 2. Make the actual API call to Bolt.ai
-  // 3. Handle the response appropriately
-  
+  // Simulate API delay
   return new Promise((resolve) => {
     setTimeout(() => {
       if (mode === 'roast') {
@@ -18,7 +10,7 @@ export async function reviewCode(code: string, mode: ReviewMode): Promise<string
       } else {
         resolve(generateProfessionalReview(code))
       }
-    }, 2000) // Simulate API delay
+    }, 2000)
   })
 }
 
@@ -86,7 +78,7 @@ Your variable names are about as descriptive as a mime's autobiography. I've see
 
 ${hasConsoleLog ? '### Debug Statements\nStill using console.log like it\'s 2010? What\'s next, alert() for user notifications? 😂' : ''}
 
-${hasVarDeclarations ? '### Variable Declarations\nUsing `var`? Did you time travel here from 2005? Even Internet Explorer is judging you right now! 💀' : ''}
+${hasVarDeclarations ? '### Variable Declarations\nUsing \`var\`? Did you time travel here from 2005? Even Internet Explorer is judging you right now! 💀' : ''}
 
 ${hasLongLines ? '### Line Length\nYour lines are longer than a CVS receipt! My monitor needs to scroll horizontally just to see where your thoughts end! 📜' : ''}
 
@@ -115,8 +107,13 @@ Remember: Every expert was once a beginner who refused to give up. You're just..
 *P.S. - This roast comes with love. We've all written code that made us question our life choices!* ❤️`
 }
 
-// Real implementation would look like this:
 /*
+// Real Bolt.ai API implementation (commented out by default)
+// Uncomment this section and comment out the mock implementation above to use real API
+// Make sure to set BOLT_API_KEY in your .env.local file
+
+const BOLT_API_ENDPOINT = process.env.BOLT_API_ENDPOINT || 'https://api.bolt.new/v1/chat/completions'
+
 export async function reviewCode(code: string, mode: ReviewMode): Promise<string> {
   const prompt = mode === 'roast' 
     ? `Please provide a humorous but constructive "roast" review of this code. Be funny but also educational:\n\n${code}`
