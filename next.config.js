@@ -1,14 +1,22 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable SWC and use Babel instead to avoid binary loading issues
-  swcMinify: false,
-  compiler: {
-    // Remove React properties in production
-    removeConsole: process.env.NODE_ENV === 'production',
+  // Use webpack for compilation instead of SWC
+  webpack: (config, { dev, isServer }) => {
+    // Optimize for WebContainer environment
+    if (!dev && !isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@next/swc-linux-x64-gnu': false,
+        '@next/swc-linux-x64-musl': false,
+      }
+    }
+    return config
   },
-  // Ensure compatibility with WebContainer environment
+  // Disable SWC minification
+  swcMinify: false,
+  // Use Terser for minification instead
   experimental: {
-    esmExternals: 'loose',
+    forceSwcTransforms: false,
   }
 }
 
